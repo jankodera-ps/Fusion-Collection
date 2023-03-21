@@ -93,7 +93,7 @@ def create_tenant(module, fusion):
     api_instance = purefusion.TenantsApi(fusion)
     changed = True
     if not module.check_mode:
-        if not module.params["display_name"]:
+        if module.params["display_name"] is None:
             display_name = module.params["name"]
         else:
             display_name = module.params["display_name"]
@@ -116,7 +116,7 @@ def update_tenant(module, fusion):
         tenant_name=module.params["name"],
     )
     if (
-        module.params["display_name"]
+        module.params["display_name"] is not None
         and module.params["display_name"] != tenant.display_name
     ):
         changed = True

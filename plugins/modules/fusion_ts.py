@@ -113,7 +113,7 @@ def create_ts(module, fusion):
 
     changed = True
     if not module.check_mode:
-        if not module.params["display_name"]:
+        if module.params["display_name"] is None:
             display_name = module.params["name"]
         else:
             display_name = module.params["display_name"]
@@ -136,7 +136,7 @@ def update_ts(module, fusion, ts):
     ts_api_instance = purefusion.TenantSpacesApi(fusion)
     patches = []
     if (
-        module.params["display_name"]
+        module.params["display_name"] is not None
         and module.params["display_name"] != ts.display_name
     ):
         patch = purefusion.TenantSpacePatch(

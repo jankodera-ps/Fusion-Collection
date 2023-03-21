@@ -177,7 +177,7 @@ def create_pg(module, fusion):
 
     changed = True
     if not module.check_mode:
-        if not module.params["display_name"]:
+        if module.params["display_name"] is None:
             display_name = module.params["name"]
         else:
             display_name = module.params["display_name"]
@@ -199,7 +199,7 @@ def create_pg(module, fusion):
 
 
 def update_display_name(module, fusion, patches, pg):
-    if not module.params["display_name"]:
+    if module.params["display_name"] is None:
         return
     if module.params["display_name"] == pg.display_name:
         return

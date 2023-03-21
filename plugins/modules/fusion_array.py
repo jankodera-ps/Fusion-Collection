@@ -137,7 +137,7 @@ def create_array(module, fusion):
     array_api_instance = purefusion.ArraysApi(fusion)
 
     if not module.check_mode:
-        if not module.params["display_name"]:
+        if module.params["display_name"] is None:
             display_name = module.params["name"]
         else:
             display_name = module.params["display_name"]
@@ -162,7 +162,7 @@ def update_array(module, fusion):
     array = get_array(module, fusion)
     patches = []
     if (
-        module.params["display_name"]
+        module.params["display_name"] is not None
         and module.params["display_name"] != array.display_name
     ):
         patch = purefusion.ArrayPatch(

@@ -132,7 +132,7 @@ def create_az(module, fusion):
 
     changed = True
     if not module.check_mode:
-        if not module.params["display_name"]:
+        if module.params["display_name"] is None:
             display_name = module.params["name"]
         else:
             display_name = module.params["display_name"]

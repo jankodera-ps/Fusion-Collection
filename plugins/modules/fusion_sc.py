@@ -172,7 +172,7 @@ def create_sc(module, fusion):
 
     changed = True
     if not module.check_mode:
-        if not module.params["display_name"]:
+        if module.params["display_name"] is None:
             display_name = module.params["name"]
         else:
             display_name = module.params["display_name"]
@@ -201,7 +201,7 @@ def update_sc(module, fusion):
         storage_service_name=module.params["storage_service"],
     )
     if (
-        module.params["display_name"]
+        module.params["display_name"] is not None
         and module.params["display_name"] != s_class.display_name
     ):
         changed = True

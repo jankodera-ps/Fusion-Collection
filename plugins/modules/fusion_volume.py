@@ -232,7 +232,7 @@ def create_volume(module, fusion):
     size = parse_number_with_metric_suffix(module, module.params["size"])
 
     if not module.check_mode:
-        if not module.params["display_name"]:
+        if module.params["display_name"] is None:
             display_name = module.params["name"]
         else:
             display_name = module.params["display_name"]
@@ -284,7 +284,7 @@ def update_destroyed(module, fusion, current, patches):
 
 def update_display_name(module, fusion, current, patches):
     wanted = module.params
-    if wanted["display_name"] and wanted["display_name"] != current.display_name:
+    if wanted["display_name"] is not None and wanted["display_name"] != current.display_name:
         patch = purefusion.VolumePatch(
             display_name=purefusion.NullableString(wanted["display_name"])
         )
@@ -326,9 +326,10 @@ def update_size(module, fusion, current, patches):
 
 def update_protection_policy(module, fusion, current, patches):
     wanted = module.params
+    current_policy = [current.protection_policy.name if current.protection_policy else None]
     if (
-        wanted["protection_policy"]
-        and wanted["protection_policy"] != current.protection_policy.name
+        wanted["protection_policy"] is not None
+        and wanted["protection_policy"] != current_policy
     ):
         patch = purefusion.VolumePatch(
             protection_policy=purefusion.NullableString(wanted["protection_policy"])

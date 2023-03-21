@@ -162,7 +162,7 @@ def create_nig(module, fusion):
         module.fail_json(msg="`gateway` must be an address in subnet `prefix`")
 
     if not module.check_mode:
-        if not module.params["display_name"]:
+        if module.params["display_name"] is None:
             display_name = module.params["name"]
         else:
             display_name = module.params["display_name"]
@@ -214,7 +214,7 @@ def update_nig(module, fusion, nig):
     nifg_api_instance = purefusion.NetworkInterfaceGroupsApi(fusion)
     patches = []
     if (
-        module.params["display_name"]
+        module.params["display_name"] is not None
         and module.params["display_name"] != nig.display_name
     ):
         patch = purefusion.NetworkInterfaceGroupPatch(
